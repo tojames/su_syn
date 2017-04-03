@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.PCategoryDao">
+    <select id="selectUserByID" resultType="PCategory">
+        select * from `p_category` where id = #{id}
+    </select>
+    
+    <!--  useGeneratedKeys="true" keyProperty="id"-->
+    <insert id="insertPCategory" parameterType="PCategory" 
+      > 
+        insert into p_category(id,name,level,remark,type,parent)  
+             values(#{id},#{name},#{level},#{remark},#{type},#{parent})  
+    </insert>
+    
+    <insert id="addPCategoryBatch" useGeneratedKeys="true" parameterType="java.util.List">  
+	    <!--  selectKey resultType="long" keyProperty="id" order="AFTER">  
+	        SELECT  
+	        LAST_INSERT_ID() 
+	    </selectKey-->  
+	    insert into p_category (id,name,level,parent,remark,type)   
+	    values  
+	    <foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.id},#{item.name},#{item.level},#{item.parent},#{item.remark},#{item.type})  
+	    </foreach>  
+	</insert> 
+</mapper>
