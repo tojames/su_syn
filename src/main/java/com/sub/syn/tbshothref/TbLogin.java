@@ -17,10 +17,10 @@ public class TbLogin {
 	private WebDriver driver=null;
 	
 	/***淘宝账号**/
-	private String name="13911624198";
+	private String name="手机号";
 	
 	/***密码***/
-	private String password="wu060326";
+	private String password="密码";
 	
 	public WebDriver getLoginDriver(){
         
