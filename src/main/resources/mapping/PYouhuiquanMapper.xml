@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sub.syn.youhuiquan.PYouHuiQuanDao">
+	<resultMap id="BaseResultMap" type="com.sub.syn.youhuiquan.YouHuiQuan">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="goods_ID" property="goodsId" jdbcType="BIGINT" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="ditle" property="ditle" jdbcType="VARCHAR" />
+		<result column="pic" property="pic" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="DOUBLE" />
+		<result column="isTmall" property="istmall" jdbcType="INTEGER" />
+		<result column="salesNum" property="salesnum" jdbcType="INTEGER" />
+		<result column="dsr" property="dsr" jdbcType="VARCHAR" />
+		<result column="sellerID" property="sellerid" jdbcType="INTEGER" />
+		<result column="introduce" property="introduce" jdbcType="VARCHAR" />
+		<result column="quanPrice" property="quanprice" jdbcType="DOUBLE" />
+		<result column="quanCondition" property="quancondition"
+			jdbcType="DOUBLE" />
+		<result column="quanLink" property="quanlink" jdbcType="VARCHAR" />
+		<result column="qQuanMLink" property="qquanmlink" jdbcType="VARCHAR" />
+		<result column="aliClick" property="aliclick" jdbcType="VARCHAR" />
+		<result column="orgPrice" property="orgprice" jdbcType="DOUBLE" />
+	</resultMap>
+
+	<insert id="insert" parameterType="com.sub.syn.youhuiquan.YouHuiQuan">
+		insert into p_youhuiquan (id,
+		goods_ID, title,
+		ditle, pic, price, isTmall,
+		salesNum, dsr, sellerID,
+		introduce, quanPrice, quanCondition,
+		quanLink,qQuanMLink,aliClick,orgPrice,type,quan_surplus,quan_time
+		)
+		values (#{id,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT},
+		#{title,jdbcType=VARCHAR},
+		#{ditle,jdbcType=VARCHAR},
+		#{pic,jdbcType=VARCHAR},
+		#{price,jdbcType=DOUBLE},
+		#{isTmall,jdbcType=INTEGER},
+		#{salesNum,jdbcType=INTEGER},
+		#{dsr,jdbcType=VARCHAR},
+		#{sellerID,jdbcType=VARCHAR},
+		#{introduce,jdbcType=VARCHAR},
+		#{quanPrice,jdbcType=DOUBLE},
+		#{quanCondition,jdbcType=VARCHAR},
+		#{quanLink,jdbcType=VARCHAR},
+		#{qQuanMLink,jdbcType=VARCHAR},
+		#{aliClick,jdbcType=VARCHAR},
+		#{orgPrice,jdbcType=DOUBLE},#{type,jdbcType=INTEGER},#{quanSurplus,jdbcType=INTEGER},
+		#{quanTime,jdbcType=DATE}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.sub.syn.youhuiquan.YouHuiQuan">
+		UPDATE p_youhuiquan
+		SET
+		Quan_surplus = #{quanSurplus}
+		WHERE id = #{id} and type=#{type}
+	</update>
+
+	<select id="select" parameterType="com.sub.syn.youhuiquan.YouHuiQuan" resultType="com.sub.syn.youhuiquan.YouHuiQuan">
+		select id, goods_ID, title,
+		ditle, pic, price,
+		isTmall,
+		salesNum, dsr, sellerID,
+		introduce,
+		quanPrice, quanCondition,
+		quanLink,qQuanMLink,aliClick,orgPrice,type,quan_surplus,quan_time from
+		p_youhuiquan WHERE id = #{id} and type=#{type}
+	</select>
+
+	<insert id="addBatch" parameterType="java.util.List">
+		insert into p_youhuiquan (id, goods_ID, title,
+		ditle, pic, price,
+		isTmall,
+		salesNum, dsr, sellerID,
+		introduce, quanPrice, quanCondition,
+		quanLink,qQuanMLink,aliClick,orgPrice,type,quan_surplus,quan_time
+		)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.id,jdbcType=BIGINT},
+			#{item.goodsId,jdbcType=BIGINT}, #{item.title,jdbcType=VARCHAR},
+			#{item.ditle,jdbcType=VARCHAR}, #{item.pic,jdbcType=VARCHAR},
+			#{item.price,jdbcType=DOUBLE}, #{item.isTmall,jdbcType=INTEGER},
+			#{item.salesNum,jdbcType=INTEGER}, #{item.dsr,jdbcType=VARCHAR},
+			#{item.sellerID,jdbcType=VARCHAR},
+			#{item.introduce,jdbcType=VARCHAR},
+			#{item.quanPrice,jdbcType=DOUBLE},
+			#{item.quanCondition,jdbcType=DOUBLE},
+			#{item.quanLink,jdbcType=VARCHAR},
+			#{item.qQuanMLink,jdbcType=VARCHAR},
+			#{item.aliClick,jdbcType=VARCHAR},
+			#{item.orgPrice,jdbcType=DOUBLE},#{item.type,jdbcType=INTEGER},#{item.quanSurplus,jdbcType=INTEGER},
+			#{item.quanTime,jdbcType=DATE}
+			)
+		</foreach>
+	</insert>
+
+	<update id="updateBatch" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			UPDATE p_youhuiquan
+			SET Quan_surplus =
+			#{item.quanSurplus}
+			WHERE id = #{item.id} and type=#{item.type}
+		</foreach>
+	</update>
+	
+	<delete id="deleteByIds" parameterType="java.util.List">
+		delete from p_youhuiquan where id in
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+        	#{item.id}   
+    	</foreach>  
+	</delete>
+
+	<update id="updateByExample" parameterType="map">
+		update p_youhuiquan
+		set id = #{record.id,jdbcType=BIGINT},
+		goods_ID =
+		#{record.goodsId,jdbcType=BIGINT},
+		title =
+		#{record.title,jdbcType=VARCHAR},
+		ditle =
+		#{record.ditle,jdbcType=VARCHAR},
+		pic = #{record.pic,jdbcType=VARCHAR},
+		price = #{record.price,jdbcType=DOUBLE},
+		isTmall =
+		#{record.istmall,jdbcType=INTEGER},
+		salesNum =
+		#{record.salesnum,jdbcType=INTEGER},
+		dsr =
+		#{record.dsr,jdbcType=VARCHAR},
+		sellerID =
+		#{record.sellerid,jdbcType=INTEGER},
+		introduce =
+		#{record.introduce,jdbcType=VARCHAR},
+		quanPrice =
+		#{record.quanprice,jdbcType=DOUBLE},
+		quanCondition =
+		#{record.quancondition,jdbcType=DOUBLE},
+		quanLink =
+		#{record.quanlink,jdbcType=VARCHAR},
+		qQuanMLink =
+		#{record.qquanmlink,jdbcType=VARCHAR},
+		aliClick =
+		#{record.aliclick,jdbcType=VARCHAR},
+		orgPrice =
+		#{record.orgprice,jdbcType=DOUBLE}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.sub.syn.youhuiquan.YouHuiQuan">
+		update
+		p_youhuiquan
+		set goods_ID = #{goodsId,jdbcType=BIGINT},
+		title =
+		#{title,jdbcType=VARCHAR},
+		ditle = #{ditle,jdbcType=VARCHAR},
+		pic =
+		#{pic,jdbcType=VARCHAR},
+		price = #{price,jdbcType=DOUBLE},
+		isTmall =
+		#{istmall,jdbcType=INTEGER},
+		salesNum = #{salesnum,jdbcType=INTEGER},
+		dsr = #{dsr,jdbcType=VARCHAR},
+		sellerID = #{sellerid,jdbcType=INTEGER},
+		introduce = #{introduce,jdbcType=VARCHAR},
+		quanPrice =
+		#{quanprice,jdbcType=DOUBLE},
+		quanCondition =
+		#{quancondition,jdbcType=DOUBLE},
+		quanLink =
+		#{quanlink,jdbcType=VARCHAR},
+		qQuanMLink =
+		#{qquanmlink,jdbcType=VARCHAR},
+		aliClick =
+		#{aliclick,jdbcType=VARCHAR},
+		orgPrice = #{orgprice,jdbcType=DOUBLE}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<update id="saveOrUpdate" parameterType="com.sub.syn.youhuiquan.YouHuiQuan">
+		merge into p_youhuiquan t
+		using ( select #{id} as id,#{type} type from
+		dual) t1
+		on(t.id = t1.id and t.type=t1.type)
+		when not matched then
+		insert
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			goods_ID, title,
+			ditle, pic, price, isTmall,
+			salesNum, dsr, sellerID,
+			introduce,
+			quanPrice, quanCondition,
+			quanLink,qQuanMLink,aliClick,orgPrice,type,quan_surplus,quan_time,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id,jdbcType=BIGINT},
+			#{goodsId,jdbcType=BIGINT},
+			#{title,jdbcType=VARCHAR},
+			#{ditle,jdbcType=VARCHAR},
+			#{pic,jdbcType=VARCHAR},
+			#{price,jdbcType=DOUBLE},
+			#{isTmall,jdbcType=INTEGER},
+			#{salesNum,jdbcType=INTEGER},
+			#{dsr,jdbcType=VARCHAR},
+			#{sellerID,jdbcType=VARCHAR},
+			#{introduce,jdbcType=VARCHAR},
+			#{quanPrice,jdbcType=DOUBLE},
+			#{quanCondition,jdbcType=DOUBLE},
+			#{quanLink,jdbcType=VARCHAR},
+			#{qQuanMLink,jdbcType=VARCHAR},
+			#{aliClick,jdbcType=VARCHAR},
+			#{orgPrice,jdbcType=DOUBLE},#{type,jdbcType=INTEGER},#{quanSurplus,jdbcType=INTEGER},
+			#{quanTime,jdbcType=DATE}
+		</trim>
+		when matched then
+		update
+		<set>
+			Quan_surplus = #{quanSurplus}
+		</set>
+		where id = #{id,jdbcType=BIGINT} and type=#{type,jdbcType=INTEGER}
+	</update>
+</mapper>

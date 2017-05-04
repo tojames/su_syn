@@ -9,6 +9,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.sub.syn.common.Config;
+import com.sub.syn.youhuiquan.YouHuiquanJob;
 
 public class Task {
 	
@@ -34,6 +35,8 @@ public class Task {
 			public void run() {
 				// task to run goes here
 				System.out.println("Hello !!"+new Date());
+				YouHuiquanJob b = new YouHuiquanJob();
+				b.synJob();
 			}
 		};
 		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
@@ -45,5 +48,7 @@ public class Task {
 	    initDelay = initDelay > 0 ? initDelay : oneDay + initDelay;  
 		// 第二个参数为首次执行的延时时间，第三个参数为定时执行的间隔时间
 		service.scheduleAtFixedRate(runnable, initDelay, oneDay, TimeUnit.MINUTES);
+		
+		
 	}
 }

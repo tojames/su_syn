@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 
 import com.sub.syn.util.Util;
 
@@ -17,15 +18,28 @@ public class TbLogin {
 	private WebDriver driver=null;
 	
 	/***淘宝账号**/
-	private String name="手机号";
+	private String name="13911624198";
 	
 	/***密码***/
-	private String password="密码";
+	private String password="wu060326";
+	
+	private void getDriver(int type){
+		if(type==0){
+			System.setProperty("phantomjs.binary.path", "E:/mavenpro/phantomjs-2.1.1-windows/bin/phantomjs.exe");
+			driver = new PhantomJSDriver();
+		}else{//谷歌
+			System.setProperty("webdriver.chrome.driver", "E:/mavenpro/sub-syn/chromedriver.exe");
+			driver = new ChromeDriver();
+		}
+	}
 	
 	public WebDriver getLoginDriver(){
-        
-        System.setProperty("webdriver.chrome.driver", "E:/mavenpro/sub-syn/chromedriver.exe");
-        driver = new ChromeDriver();
+        //谷歌
+        //System.setProperty("webdriver.chrome.driver", "E:/mavenpro/sub-syn/chromedriver.exe");
+        //System.setProperty("phantomjs.binary.path", "E:/mavenpro/phantomjs-2.1.1-windows/bin/phantomjs.exe");
+        //driver = new ChromeDriver();
+		
+		getDriver(0);
         
         //窗口最大化 防止出现找不到元素的错误信息 由于页面元素比较多，往往需要操作的元素不能全部显示出来，所以需要窗口最大化，也可以设定像素
         //元素在页面最下方的，可以通过页面滚动的形式，定位到元素所在位置

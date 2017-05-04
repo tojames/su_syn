@@ -26,9 +26,9 @@ public class TaoBaoLmMain {
         
         List<String> list=new ArrayList<String>();
         //list.add("https://detail.tmall.com/item.htm?id=543799986727&spm=a219t.7900221/10.1998910419.d30ccd691.uI4hJM&spm=a219t.7900221/10.1998910419.d30ccd691.uI4hJM");
-        list.add("https://item.taobao.com/item.htm?spm=a219t.7900221/21.1998910419.d9a1dac8enzjh.hwzQWs&id=545379767589");
-        list.add("https://item.taobao.com/item.htm?spm=a219t.7900221/21.1998910419.d9a1dac8enzjh.0ywKvZ&id=545588026553");
-        list.add("https://item.taobao.com/item.htm?spm=a219t.7900221/21.1998910419.d9a1dac8enzjh.0ywKvZ&id=545903909175");
+        list.add("https://detail.tmall.com/item.htm?id=538033221802&spm=a219t.7900221/19.1998910419.d9a1dac8eqqhd.2qb1Br&sku_properties=5919063:6536025");
+        //list.add("https://item.taobao.com/item.htm?spm=a219t.7900221/21.1998910419.d9a1dac8enzjh.0ywKvZ&id=545588026553");
+        //list.add("https://item.taobao.com/item.htm?spm=a219t.7900221/21.1998910419.d9a1dac8enzjh.0ywKvZ&id=545903909175");
         for(String key:list){
         	//((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 0)");
         	tblm.getDatas(driver,key);
@@ -82,7 +82,11 @@ public class TaoBaoLmMain {
         		web.click();
         		System.out.println("==a 连接="+web.getTagName());
         		Util.sleep(2);
-        		web=driver.findElement(By.cssSelector(".btn.btn-brand.w100.mr10"));
+        		try{
+        			web=driver.findElement(By.cssSelector(".btn.btn-brand.w100.mr10"));
+        		}catch(org.openqa.selenium.NoSuchElementException e){
+        			web=driver.findElement(By.cssSelector(".btn.btn-brand.w100.mr10"));
+        		}
         		System.out.println("按钮："+web.getText());
         		web.click();
         		System.out.println("===================点击完成===================");

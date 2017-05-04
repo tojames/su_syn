@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sub.syn.qianggou.dao.PQianggouDao" >
+  <resultMap id="BaseResultMap" type="com.sub.syn.qianggou.entity.PQianggou" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="total_amount" property="totalAmount" jdbcType="VARCHAR" />
+    <result column="click_url" property="clickUrl" jdbcType="VARCHAR" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="zk_final_price" property="zkFinalPrice" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+    <result column="sold_num" property="soldNum" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+    <result column="reserve_price" property="reservePrice" jdbcType="VARCHAR" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="num_iid" property="numIid" jdbcType="BIGINT" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from p_qianggou
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sub.syn.qianggou.entity.PQianggou" keyProperty="id" >
+    insert into p_qianggou (id, title, total_amount, 
+      click_url, category_name, zk_final_price, 
+      end_time, sold_num, start_time, 
+      reserve_price, pic_url, num_iid
+      )
+    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{totalAmount,jdbcType=VARCHAR}, 
+      #{clickUrl,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, #{zkFinalPrice,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=VARCHAR}, #{soldNum,jdbcType=INTEGER}, #{startTime,jdbcType=VARCHAR}, 
+      #{reservePrice,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{numIid,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="addBatch" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">  
+	     <selectKey resultType="long" keyProperty="id" order="BEFORE">  
+	        SELECT LAST_INSERT_ID() 
+	    </selectKey>  
+	    insert into p_qianggou (id, title, total_amount, 
+	      click_url, category_name, zk_final_price, 
+	      end_time, sold_num, start_time, 
+	      reserve_price, pic_url, num_iid,type
+	      )  
+	    values  
+	    <foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.id},#{item.title,jdbcType=VARCHAR}, #{item.totalAmount,jdbcType=VARCHAR}, 
+		      #{item.clickUrl,jdbcType=VARCHAR}, #{item.categoryName,jdbcType=VARCHAR}, #{item.zkFinalPrice,jdbcType=VARCHAR}, 
+		      #{item.endTime,jdbcType=VARCHAR}, #{item.soldNum,jdbcType=INTEGER}, #{item.startTime,jdbcType=VARCHAR}, 
+		      #{item.reservePrice,jdbcType=VARCHAR}, #{item.picUrl,jdbcType=VARCHAR}, #{item.numIid,jdbcType=BIGINT}, #{item.type,jdbcType=INTEGER}
+		     ) 
+	    </foreach> 
+	</insert>
+
+	<update id="updateBatch" parameterType="java.util.List">	    
+	     <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE p_qianggou
+                SET sold_num = #{item.soldNum}
+            WHERE num_iid = #{item.numIid} and type=#{item.type}
+        </foreach>
+	</update>
+	<select id="getCount" parameterType="com.sub.syn.qianggou.entity.PQianggou" resultType="java.lang.Integer"  >
+		select count(1) from p_qianggou where start_time between #{startTime} and #{endTime}
+	</select>
+	<delete id="deleteByTime" parameterType="com.sub.syn.qianggou.entity.PQianggou">
+		delete from p_qianggou  <![CDATA[ where end_time<=#{endTime} ]]>
+	</delete>
+	
+	
+  <update id="updateByExample" parameterType="map" >
+    update p_qianggou
+    set id = #{record.id,jdbcType=BIGINT},
+      title = #{record.title,jdbcType=VARCHAR},
+      total_amount = #{record.totalAmount,jdbcType=VARCHAR},
+      click_url = #{record.clickUrl,jdbcType=VARCHAR},
+      category_name = #{record.categoryName,jdbcType=VARCHAR},
+      zk_final_price = #{record.zkFinalPrice,jdbcType=VARCHAR},
+      end_time = #{record.endTime,jdbcType=VARCHAR},
+      sold_num = #{record.soldNum,jdbcType=INTEGER},
+      start_time = #{record.startTime,jdbcType=VARCHAR},
+      reserve_price = #{record.reservePrice,jdbcType=VARCHAR},
+      pic_url = #{record.picUrl,jdbcType=VARCHAR},
+      num_iid = #{record.numIid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sub.syn.qianggou.entity.PQianggou" >
+    update p_qianggou
+    set title = #{title,jdbcType=VARCHAR},
+      total_amount = #{totalAmount,jdbcType=VARCHAR},
+      click_url = #{clickUrl,jdbcType=VARCHAR},
+      category_name = #{categoryName,jdbcType=VARCHAR},
+      zk_final_price = #{zkFinalPrice,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=VARCHAR},
+      sold_num = #{soldNum,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=VARCHAR},
+      reserve_price = #{reservePrice,jdbcType=VARCHAR},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      num_iid = #{numIid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
