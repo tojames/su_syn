@@ -22,5 +22,6 @@
         <mapper resource="mapping/PCategory.xml"/>
         <mapper resource="mapping/PQianggouMapper.xml"/>
         <mapper resource="mapping/PYouhuiquanMapper.xml"/>
+        <mapper resource="mapping/PJzdyMapper.xml"/>
     </mappers>
 </configuration>

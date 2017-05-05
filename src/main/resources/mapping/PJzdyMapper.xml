@@ -1,51 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cz.mapper.PJzdyMapper" >
+<mapper namespace="com.sub.syn.jzdy.PJzdyDao" >
   <resultMap id="BaseResultMap" type="com.sub.syn.jzdy.PJzdy" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="price_max" property="priceMax" jdbcType="DOUBLE" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="tx_time" property="txTime" jdbcType="TIMESTAMP" />
     <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, type, content, price, mobile, create_time, tx_time, goods_id
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cz.pojo.PJzdyExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from p_jzdy
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from p_jzdy
-    where id = #{id,jdbcType=INTEGER}
-  </select>
+  
   <select id="selectTs" resultType="com.sub.syn.jzdy.PJzdy">
-  	select * from p_jzdy where tx_time is null limit 20
+  	select id, type, content, 
+      price, mobile, create_time, price_max priceMax,
+      tx_time, goods_id from p_jzdy where tx_time is null limit 20
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from p_jzdy
     where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.cz.pojo.PJzdyExample" >
-    delete from p_jzdy
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
   </delete>
   <insert id="insert" parameterType="com.sub.syn.jzdy.PJzdy" >
     insert into p_jzdy (id, type, content, 
@@ -57,8 +32,15 @@
   </insert>
   
   <!-- 查询订阅优惠信息 按关键字查询 -->
-  <select id="selectByContent" parameterType="com.sub.syn.jzdy.PJzdy" resultType="com.sub.syn.youhuiquan.YouHuiQuan">
-  	select * from p_youhuiquan where title like CONCAT('%','${content}','%' )  or ditle like  CONCAT('%','${content}','%' ) 
+  <select id="selectByContent" parameterType="com.sub.syn.jzdy.PJzdy" resultType="com.sub.syn.youhuiquan.YouHuiQuan">	
+  	
+  	select id,
+		goods_ID goodsId, title,
+		ditle, pic, price, isTmall,
+		salesNum, dsr, sellerID,
+		introduce, quanPrice, quanCondition,
+		quanLink,qQuanMLink,aliClick,orgPrice,type,quan_surplus,quan_time from (select * from (select *,orgPrice-quanPrice d from p_youhuiquan where title like CONCAT('%','${content}','%' )  or ditle like  CONCAT('%','${content}','%' )  and quan_surplus>5) tt  
+	where tt.d BETWEEN #{price,jdbcType=INTEGER} and #{priceMax,jdbcType=INTEGER} ORDER BY tt.SalesNum desc) r LIMIT 1
   </select>
   
   <insert id="insertSelective" parameterType="com.sub.syn.jzdy.PJzdy" >
@@ -116,58 +98,6 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.cz.pojo.PJzdyExample" resultType="java.lang.Integer" >
-    select count(*) from p_jzdy
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update p_jzdy
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.type != null" >
-        type = #{record.type,jdbcType=INTEGER},
-      </if>
-      <if test="record.content != null" >
-        content = #{record.content,jdbcType=VARCHAR},
-      </if>
-      <if test="record.price != null" >
-        price = #{record.price,jdbcType=DOUBLE},
-      </if>
-      <if test="record.mobile != null" >
-        mobile = #{record.mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null" >
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.txTime != null" >
-        tx_time = #{record.txTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.goodsId != null" >
-        goods_id = #{record.goodsId,jdbcType=BIGINT},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update p_jzdy
-    set id = #{record.id,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=INTEGER},
-      content = #{record.content,jdbcType=VARCHAR},
-      price = #{record.price,jdbcType=DOUBLE},
-      mobile = #{record.mobile,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      tx_time = #{record.txTime,jdbcType=TIMESTAMP},
-      goods_id = #{record.goodsId,jdbcType=BIGINT}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.sub.syn.jzdy.PJzdy" >
     update p_jzdy
     <set >
@@ -205,5 +135,9 @@
       tx_time = #{txTime,jdbcType=TIMESTAMP},
       goods_id = #{goodsId,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateTxTime" parameterType="com.sub.syn.jzdy.PJzdy">
+  	update p_jzdy set tx_time = #{txTime,jdbcType=TIMESTAMP} where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

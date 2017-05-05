@@ -10,6 +10,8 @@ public class PJzdy {
     private String content;
 
     private Double price;
+    
+    private Double priceMax;
 
     private String mobile;
 
@@ -82,4 +84,12 @@ public class PJzdy {
     public void setGoodsId(Long goodsId) {
         this.goodsId = goodsId;
     }
+
+	public Double getPriceMax() {
+		return priceMax;
+	}
+
+	public void setPriceMax(Double priceMax) {
+		this.priceMax = priceMax;
+	}
 }

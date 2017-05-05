@@ -8,10 +8,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.sub.syn.common.Config;
 import com.sub.syn.youhuiquan.YouHuiquanJob;
 
 public class Task {
+	
+	private static Log log=LogFactory.getLog(Task.class);
 	
 	/** 
 	 * 获取指定时间对应的毫秒数 
@@ -33,7 +38,7 @@ public class Task {
 	public static void main(String[] args) {
 		Runnable runnable = new Runnable() {
 			public void run() {
-				// task to run goes here
+				// 优惠券信息同步
 				System.out.println("Hello !!"+new Date());
 				YouHuiquanJob b = new YouHuiquanJob();
 				b.synJob();
@@ -49,6 +54,9 @@ public class Task {
 		// 第二个参数为首次执行的延时时间，第三个参数为定时执行的间隔时间
 		service.scheduleAtFixedRate(runnable, initDelay, oneDay, TimeUnit.MINUTES);
 		
-		
+		//启动定时下发短信提醒的功能
+		log.info("启动下发短信功能");
+		TuiSongThread tt=new TuiSongThread();
+		tt.start();
 	}
 }

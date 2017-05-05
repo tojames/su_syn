@@ -15,4 +15,10 @@ public interface PJzdyDao {
 	 * @return
 	 */
 	public YouHuiQuan selectByContent(PJzdy bean);
+	
+	/**
+	 * 修改下发提醒时间
+	 * @param bean
+	 */
+	public void updateTxTime(PJzdy bean);
 }

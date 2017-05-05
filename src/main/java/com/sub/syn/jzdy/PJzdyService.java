@@ -45,4 +45,21 @@ public class PJzdyService {
 		return yhq;
 	}
 	
+	/**
+	 * 修改下发提醒时间
+	 * @param bean
+	 */
+	public void updateTxTime(PJzdy bean){
+		SqlSession session=sqlSessionFactory.openSession();
+		try{
+			PJzdyDao dao=session.getMapper(PJzdyDao.class);
+			dao.updateTxTime(bean);
+			session.commit();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			session.close();
+		}
+	}
+	
 }
