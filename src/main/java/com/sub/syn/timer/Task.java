@@ -56,6 +56,7 @@ public class Task {
 		
 		//启动定时下发短信提醒的功能
 		log.info("启动下发短信功能");
+		System.out.println("启动下发短信功能");
 		TuiSongThread tt=new TuiSongThread();
 		tt.start();
 	}

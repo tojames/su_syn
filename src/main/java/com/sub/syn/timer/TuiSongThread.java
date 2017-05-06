@@ -31,14 +31,14 @@ public class TuiSongThread extends Thread{
 			log.info("定时下发提醒短信");
 			List<PJzdy> list=service.selectTs();
 			for(PJzdy bean:list){
-				yhq=service.selectByContent(bean);
+				yhq=service.selectByGoodsId(bean);
 				//下发短信给用户
 				if(null!=yhq){
 					MessageTools.sendShortMsg(bean.getMobile(), bean.getContent(), yhq.getGoodsId()+"");
+					//修改下发提醒时间
+					bean.setTxTime(new Date());
+					service.updateTxTime(bean);
 				}
-				//修改下发提醒时间
-				bean.setTxTime(new Date());
-				service.updateTxTime(bean);
 			}
 			try {
 				TimeUnit.SECONDS.sleep(5);
@@ -59,6 +59,5 @@ public class TuiSongThread extends Thread{
 	public static void main(String[] args) throws ApiException {
 		TuiSongThread tt=new TuiSongThread();
 		tt.start();
-
 	}
 }
