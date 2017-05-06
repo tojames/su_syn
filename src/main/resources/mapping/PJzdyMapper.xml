@@ -16,7 +16,7 @@
   <select id="selectTs" resultType="com.sub.syn.jzdy.PJzdy">
   	select id, type, content, 
       price, mobile, create_time, price_max priceMax,
-      tx_time, goods_id from p_jzdy where tx_time is null limit 20
+      tx_time, goods_id goodsId from p_jzdy where tx_time is null limit 20
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from p_jzdy
@@ -33,13 +33,22 @@
   
   <!-- 查询订阅优惠信息 按关键字查询 -->
   <select id="selectByContent" parameterType="com.sub.syn.jzdy.PJzdy" resultType="com.sub.syn.youhuiquan.YouHuiQuan">	
-  	
   	select id,
 		goods_ID goodsId, title,
 		ditle, pic, price, isTmall,
 		salesNum, dsr, sellerID,
 		introduce, quanPrice, quanCondition,
 		quanLink,qQuanMLink,aliClick,orgPrice,type,quan_surplus,quan_time from (select * from (select *,orgPrice-quanPrice d from p_youhuiquan where title like CONCAT('%','${content}','%' )  or ditle like  CONCAT('%','${content}','%' )  and quan_surplus>5) tt  
+	where tt.d BETWEEN #{price,jdbcType=INTEGER} and #{priceMax,jdbcType=INTEGER} ORDER BY tt.SalesNum desc) r LIMIT 1
+  </select>
+  
+  <select id="selectByGoodsId" parameterType="com.sub.syn.jzdy.PJzdy" resultType="com.sub.syn.youhuiquan.YouHuiQuan">	
+  	select id,
+		goods_ID goodsId, title,
+		ditle, pic, price, isTmall,
+		salesNum, dsr, sellerID,
+		introduce, quanPrice, quanCondition,
+		quanLink,qQuanMLink,aliClick,orgPrice,type,quan_surplus,quan_time from (select * from (select *,orgPrice-quanPrice d from p_youhuiquan where goods_ID=#{goodsId}  and quan_surplus>5) tt  
 	where tt.d BETWEEN #{price,jdbcType=INTEGER} and #{priceMax,jdbcType=INTEGER} ORDER BY tt.SalesNum desc) r LIMIT 1
   </select>
   
