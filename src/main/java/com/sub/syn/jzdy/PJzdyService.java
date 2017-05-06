@@ -45,6 +45,20 @@ public class PJzdyService {
 		return yhq;
 	}
 	
+	public YouHuiQuan selectByGoodsId(PJzdy bean){
+		YouHuiQuan yhq=new YouHuiQuan();
+		SqlSession session=sqlSessionFactory.openSession();
+		try{
+			PJzdyDao dao=session.getMapper(PJzdyDao.class);
+			yhq=dao.selectByGoodsId(bean);
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			session.close();
+		}
+		return yhq;
+	}
+	
 	/**
 	 * 修改下发提醒时间
 	 * @param bean

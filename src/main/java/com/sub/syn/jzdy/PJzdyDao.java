@@ -16,6 +16,9 @@ public interface PJzdyDao {
 	 */
 	public YouHuiQuan selectByContent(PJzdy bean);
 	
+	
+	public YouHuiQuan selectByGoodsId(PJzdy bean);
+	
 	/**
 	 * 修改下发提醒时间
 	 * @param bean
