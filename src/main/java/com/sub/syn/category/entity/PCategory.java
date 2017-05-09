@@ -10,7 +10,6 @@ package com.sub.syn.category.entity;
  */
 public class PCategory  {
 	
-	private static final long serialVersionUID = 1L;
 	private String type;		// 类型 1淘宝 2京东
 	private String name;		// 分类名称
 	private String url;		// url

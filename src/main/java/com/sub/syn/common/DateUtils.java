@@ -7,7 +7,6 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 
@@ -197,7 +196,6 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		calendar.setTime(date);
 		calendar.add(Calendar.HOUR, 1);
 		date = calendar.getTime();
-		String str=DateFormatUtils.format(date, "yyyy-MM-dd HH:mm:ss");
 		return date;
 	}
 	

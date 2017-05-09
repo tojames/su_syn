@@ -7,7 +7,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.sub.syn.common.BaseDao;
-import com.sub.syn.qianggou.entity.PQianggou;
 
 /**
  * 抢购service

@@ -1,10 +1,15 @@
 package com.sub.syn.common;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.sub.syn.timer.TuiSongThread;
 import com.taobao.api.ApiException;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
 import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
+
 
 /**
  * 短信下发工具
@@ -12,8 +17,10 @@ import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
  *
  */
 public class MessageTools {
+	
+	private static Log log=LogFactory.getLog(MessageTools.class);
 
-public static String url="http://gw.api.taobao.com/router/rest";
+	public static String url="http://gw.api.taobao.com/router/rest";
 	
 	public static String appkey="23765499";
 	
@@ -42,6 +49,9 @@ public static String url="http://gw.api.taobao.com/router/rest";
 	 * @param pid    商品ID
 	 */
 	public static void sendShortMsg(String mobile,String pname,String pid){
+		if(null==pname||"".equals(pname)){
+			pname="亲";
+		}
 		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
 		AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
 		req.setExtend("123456");
@@ -54,6 +64,7 @@ public static String url="http://gw.api.taobao.com/router/rest";
 		try {
 			rsp = client.execute(req);
 			System.out.println(rsp.getBody());
+			log.info(rsp.getBody());
 		} catch (ApiException e) {
 			e.printStackTrace();
 		}

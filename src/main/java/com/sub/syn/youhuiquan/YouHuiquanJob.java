@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -29,6 +31,7 @@ import com.alibaba.fastjson.JSONObject;
 
 public class YouHuiquanJob {
 
+	private static Log log=LogFactory.getLog(YouHuiquanJob.class);
 	private static PoolingHttpClientConnectionManager cm;
 	private static String EMPTY_STR = "";
 	private static String UTF_8 = "UTF-8";
@@ -201,6 +204,7 @@ public class YouHuiquanJob {
 				service.saveBath(list);
 				++page;
 				System.out.println(list.size() + " 页数：" + page);
+				log.info("记录条数："+list.size() + " 页数：" + page);
 				json = httpGetRequest(url.replace("[page]", page + ""));
 				try{
 					list = jsonToBean(json);
