@@ -32,5 +32,13 @@ public interface PYouHuiQuanDao {
     public void deleteByTime(YouHuiQuan bean);
     
     public void deleteByIds(List<YouHuiQuan> id);
+    
+    /**
+     * 删除淘宝基地的数据
+     * @param id
+     */
+    public void deleteByIdsTbjd(List<YouHuiQuan> id);
+    
+    
 
 }

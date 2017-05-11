@@ -185,6 +185,19 @@ public class PYouHuiQuanService {
 			session.close();
 		}
     }
+    
+    public void deleteByIdsTbjd(List<YouHuiQuan> id){
+    	SqlSession session=sqlSessionFactory.openSession();
+		try{
+			PYouHuiQuanDao dao=session.getMapper(PYouHuiQuanDao.class);
+			dao.deleteByIdsTbjd(id);
+			session.commit();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			session.close();
+		}
+    }
 	
 	public static void main(String[] args){
 		List<YouHuiQuan> list=new ArrayList<YouHuiQuan>();

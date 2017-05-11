@@ -48,10 +48,16 @@ public class YouHuiQuan {
 	private int quanSurplus;
 	/***结束时间**/
 	private Date quanTime;
+	
+	/**分类名称**/
+	private String cateName;
+	/**备注**/
+	private String note;
 	public int getId() {
 		return id;
 	}
 
+	/***商品源Id**/
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -108,6 +114,7 @@ public class YouHuiQuan {
 		return cid;
 	}
 
+	/**分类ID***/
 	public void setCid(int cid) {
 		this.cid = cid;
 	}
@@ -222,6 +229,22 @@ public class YouHuiQuan {
 
 	public void setQuanTime(Date quanTime) {
 		this.quanTime = quanTime;
+	}
+
+	public String getCateName() {
+		return cateName;
+	}
+	/**分类名称**/
+	public void setCateName(String cateName) {
+		this.cateName = cateName;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 	
 	
