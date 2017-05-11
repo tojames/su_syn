@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.sub.syn.common.Config;
 import com.sub.syn.youhuiquan.YouHuiquanJob;
+import com.sub.syn.youhuiquan.YouHuiquanTKJDJob;
 
 public class Task {
 	
@@ -42,6 +43,9 @@ public class Task {
 				System.out.println("Hello !!"+new Date());
 				YouHuiquanJob b = new YouHuiquanJob();
 				b.synJob();
+				
+				YouHuiquanTKJDJob yt=new YouHuiquanTKJDJob();
+				yt.synJob();
 			}
 		};
 		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();

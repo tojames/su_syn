@@ -41,7 +41,7 @@ public class TuiSongThread extends Thread{
 				}
 			}
 			try {
-				TimeUnit.SECONDS.sleep(5);
+				TimeUnit.SECONDS.sleep(60);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
