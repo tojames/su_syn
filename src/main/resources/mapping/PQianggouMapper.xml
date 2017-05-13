@@ -38,14 +38,15 @@
 	    insert into p_qianggou (id, title, total_amount, 
 	      click_url, category_name, zk_final_price, 
 	      end_time, sold_num, start_time, 
-	      reserve_price, pic_url, num_iid,type
+	      reserve_price, pic_url, num_iid,type,status
 	      )  
 	    values  
 	    <foreach collection="list" item="item" index="index" separator="," >  
-	        (#{item.id},#{item.title,jdbcType=VARCHAR}, #{item.totalAmount,jdbcType=VARCHAR}, 
-		      #{item.clickUrl,jdbcType=VARCHAR}, #{item.categoryName,jdbcType=VARCHAR}, #{item.zkFinalPrice,jdbcType=VARCHAR}, 
+	        (#{item.id},#{item.title,jdbcType=VARCHAR}, #{item.totalAmount,jdbcType=INTEGER}, 
+		      #{item.clickUrl,jdbcType=VARCHAR}, #{item.categoryName,jdbcType=VARCHAR}, #{item.zkFinalPrice,jdbcType=DOUBLE}, 
 		      #{item.endTime,jdbcType=VARCHAR}, #{item.soldNum,jdbcType=INTEGER}, #{item.startTime,jdbcType=VARCHAR}, 
-		      #{item.reservePrice,jdbcType=VARCHAR}, #{item.picUrl,jdbcType=VARCHAR}, #{item.numIid,jdbcType=BIGINT}, #{item.type,jdbcType=INTEGER}
+		      #{item.reservePrice,jdbcType=VARCHAR}, #{item.picUrl,jdbcType=VARCHAR}, #{item.numIid,jdbcType=BIGINT},
+		      #{item.type,jdbcType=INTEGER},#{item.status,jdbcType=INTEGER}
 		     ) 
 	    </foreach> 
 	</insert>
@@ -53,7 +54,7 @@
 	<update id="updateBatch" parameterType="java.util.List">	    
 	     <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             UPDATE p_qianggou
-                SET sold_num = #{item.soldNum}
+                SET sold_num = #{item.soldNum},status=#{item.status}
             WHERE num_iid = #{item.numIid} and type=#{item.type}
         </foreach>
 	</update>
@@ -61,7 +62,7 @@
 		select count(1) from p_qianggou where start_time between #{startTime} and #{endTime}
 	</select>
 	<delete id="deleteByTime" parameterType="com.sub.syn.qianggou.entity.PQianggou">
-		delete from p_qianggou  <![CDATA[ where end_time<=#{endTime} ]]>
+		delete from p_qianggou  <![CDATA[ where end_time<=#{endTime} or status=1 ]]>
 	</delete>
 	
 	

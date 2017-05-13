@@ -42,14 +42,15 @@
 	where tt.d BETWEEN #{price,jdbcType=INTEGER} and #{priceMax,jdbcType=INTEGER} ORDER BY tt.SalesNum desc) r LIMIT 1
   </select>
   
+  <!-- 根据商品ID查询优惠信息 -->
   <select id="selectByGoodsId" parameterType="com.sub.syn.jzdy.PJzdy" resultType="com.sub.syn.youhuiquan.YouHuiQuan">	
-  	select id,
-		goods_ID goodsId, title,
-		ditle, pic, price, isTmall,
-		salesNum, dsr, sellerID,
-		introduce, quanPrice, quanCondition,
-		quanLink,qQuanMLink,aliClick,orgPrice,type,quan_surplus,quan_time from (select * from (select *,orgPrice-quanPrice d from p_youhuiquan where goods_ID=#{goodsId}  and quan_surplus>5) tt  
-	where tt.d BETWEEN #{price,jdbcType=INTEGER} and #{priceMax,jdbcType=INTEGER} ORDER BY tt.SalesNum desc) r LIMIT 1
+  	SELECT * from (select goods_ID goodsId,price from p_youhuiquan where goods_ID=#{goodsId}  and quan_surplus>5	
+  		and price BETWEEN #{price,jdbcType=INTEGER} and #{priceMax,jdbcType=INTEGER}  
+		UNION all
+		select num_iid goods_ID,zk_final_price price from p_qianggou where status=0 
+		and zk_final_price BETWEEN #{price,jdbcType=INTEGER} and #{priceMax,jdbcType=INTEGER}  and num_iid=#{goodsId} 
+		and start_time   &lt;   date_format(now(), '%Y-%m-%d %H:%I:%S') and end_time>date_format(now(), '%Y-%m-%d %H:%I:%S') ) t
+	ORDER BY t.price LIMIT 1  	
   </select>
   
   <insert id="insertSelective" parameterType="com.sub.syn.jzdy.PJzdy" >

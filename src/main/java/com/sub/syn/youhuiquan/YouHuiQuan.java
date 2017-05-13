@@ -48,6 +48,7 @@ public class YouHuiQuan {
 	private int quanSurplus;
 	/***结束时间**/
 	private Date quanTime;
+	private Date createTime;
 	
 	/**分类名称**/
 	private String cateName;
@@ -130,7 +131,7 @@ public class YouHuiQuan {
 	public double getPrice() {
 		return price;
 	}
-
+	/*券后价*/
 	public void setPrice(double price) {
 		this.price = price;
 	}
@@ -245,6 +246,14 @@ public class YouHuiQuan {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 	
 	

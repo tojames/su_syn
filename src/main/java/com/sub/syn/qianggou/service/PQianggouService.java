@@ -90,8 +90,8 @@ public class PQianggouService {
 	
 	public static void main(String[] args){
 		PQianggou bean=new PQianggou();
-		bean.setStartTime("2017-04-24 20:00:00");
-		bean.setEndTime("2017-04-26 21:00:00");
+		bean.setStartTime("2017-05-12 20:00:00");
+		bean.setEndTime("2017-05-12 21:00:00");
 		new PQianggouService().deleteByTime(bean);
 	}
 }

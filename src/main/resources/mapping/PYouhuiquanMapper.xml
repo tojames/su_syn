@@ -28,7 +28,7 @@
 		ditle, pic, price, isTmall,
 		salesNum, dsr, sellerID,
 		introduce, quanPrice, quanCondition,
-		quanLink,qQuanMLink,aliClick,orgPrice,type,quan_surplus,quan_time
+		quanLink,qQuanMLink,aliClick,orgPrice,type,quan_surplus,quan_time,create_time
 		)
 		values (#{id,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT},
 		#{title,jdbcType=VARCHAR},
@@ -46,7 +46,7 @@
 		#{qQuanMLink,jdbcType=VARCHAR},
 		#{aliClick,jdbcType=VARCHAR},
 		#{orgPrice,jdbcType=DOUBLE},#{type,jdbcType=INTEGER},#{quanSurplus,jdbcType=INTEGER},
-		#{quanTime,jdbcType=DATE}
+		#{quanTime,jdbcType=DATE},#{createTime,jdbcType=DATE}
 		)
 	</insert>
 
@@ -74,7 +74,7 @@
 		isTmall,
 		salesNum, dsr, sellerID,
 		introduce, quanPrice, quanCondition,
-		quanLink,qQuanMLink,aliClick,orgPrice,type,quan_surplus,quan_time
+		quanLink,qQuanMLink,aliClick,orgPrice,type,quan_surplus,quan_time,create_time
 		)
 		values
 		<foreach collection="list" item="item" index="index"
@@ -92,7 +92,7 @@
 			#{item.qQuanMLink,jdbcType=VARCHAR},
 			#{item.aliClick,jdbcType=VARCHAR},
 			#{item.orgPrice,jdbcType=DOUBLE},#{item.type,jdbcType=INTEGER},#{item.quanSurplus,jdbcType=INTEGER},
-			#{item.quanTime,jdbcType=DATE}
+			#{item.quanTime,jdbcType=DATE},#{item.createTime,jdbcType=TIMESTAMP}
 			)
 		</foreach>
 	</insert>
@@ -107,11 +107,22 @@
 		</foreach>
 	</update>
 	
+	<!-- 删除大淘客联盟的数据 -->
 	<delete id="deleteByIds" parameterType="java.util.List">
-		delete from p_youhuiquan where id in
+		delete from p_youhuiquan where goods_ID in
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
-        	#{item.id}   
+        	#{item.goodsId}
+    	</foreach>
+    	and type=1
+	</delete>
+	
+	<!-- 删除淘宝基地的数据 -->
+	<delete id="deleteByIdsTbjd" parameterType="java.util.List">
+		delete from p_youhuiquan where goods_ID in
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+        	#{item.goodsId}   
     	</foreach>  
+    	and type=2
 	</delete>
 
 	<update id="updateByExample" parameterType="map">
@@ -222,4 +233,8 @@
 		</set>
 		where id = #{id,jdbcType=BIGINT} and type=#{type,jdbcType=INTEGER}
 	</update>
+	
+	<delete id="delete4EndTime" >
+		delete from p_youhuiquan where quan_time &lt; now() and quan_surplus=0
+	</delete>
 </mapper>

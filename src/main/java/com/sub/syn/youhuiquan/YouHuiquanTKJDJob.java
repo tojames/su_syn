@@ -1,8 +1,11 @@
 package com.sub.syn.youhuiquan;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +34,7 @@ public class YouHuiquanTKJDJob extends ParentYhyJob{
 	
 	public void synJob() {
 		String json = httpGetRequest(url.replace("[page]", page + ""));
-		log.info(json);
+		//log.info(json);
 		List<YouHuiQuan> list = jsonToBean(json);
 		try {
 			while (list.size()>0) {
@@ -39,7 +42,7 @@ public class YouHuiquanTKJDJob extends ParentYhyJob{
 				service.saveBath(list);
 				++page;
 				System.out.println(list.size() + " 页数：" + page);
-				log.info("记录条数："+list.size() + " 页数：" + page);
+				log.info("淘客基地 记录条数："+list.size() + " 页数：" + page);
 				json = httpGetRequest(url.replace("[page]", page + ""));
 				try{
 					list = jsonToBean(json);
@@ -64,6 +67,9 @@ public class YouHuiquanTKJDJob extends ParentYhyJob{
 	}
 
 	private List<YouHuiQuan> jsonToBean(String json) {
+		String temp="";
+		DateFormat datedf = new SimpleDateFormat("yyyyMMddhhmmss");
+		String dateStr=datedf.format(new Date());
 		DecimalFormat df = new DecimalFormat("######0.00");   
 		List<YouHuiQuan> list = new ArrayList<YouHuiQuan>();
 		com.alibaba.fastjson.JSONObject object = JSON.parseObject(json);
@@ -96,8 +102,17 @@ public class YouHuiquanTKJDJob extends ParentYhyJob{
 			bean.setSalesNum(obj.getIntValue("sales"));  /*商品销量*/
 			bean.setSellerID(obj.getString("SellerID"));
 			bean.setTitle(obj.getString("goods_name"));
+			bean.setCreateTime(new Date());
 			bean.setType(2);//淘客基地
 			try {
+				temp=obj.getString("quan_expired_time");
+				if(!"".equals(temp)){
+					temp=temp.replaceAll("-","").replaceAll(":","").replaceAll(" ","");
+				}
+				if(Long.parseLong(temp)<=Long.parseLong(dateStr)){
+					continue;
+				}
+				//System.out.println("temp:"+temp);
 				bean.setQuanTime(DateUtils.parseDate(obj.getString("quan_expired_time"), "yyyy-mm-dd HH:MM:SS"));
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -109,11 +124,27 @@ public class YouHuiquanTKJDJob extends ParentYhyJob{
 		return list;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		long start=System.currentTimeMillis();
 		YouHuiquanTKJDJob b = new YouHuiquanTKJDJob();
 		b.synJob();
-		long end=System.currentTimeMillis();
-		System.out.println("耗时："+(end-start)/1000+"秒");
+//		long end=System.currentTimeMillis();
+//		System.out.println("耗时："+(end-start)/1000+"秒");
+		
+//		DateFormat df = new SimpleDateFormat("yyyyMMddhhmmss");
+//		
+//		String df1=df.format(new Date());
+//		
+//		Date dt1=DateUtils.parseDate("20160612172822", "yyyymmdd HH:MM:SS");
+//		long d1=dt1.getTime();
+//		Date dt2=new Date();
+//		long d2=dt2.getTime();
+//		System.out.println(d1+"||"+d2);
+//		 if (dt1.getTime() > dt2.getTime()) {
+//             System.out.println("dt1 在dt2前");
+//         } else if (dt1.getTime() < dt2.getTime()) {
+//             System.out.println("dt1在dt2后");
+//         } 
+		
 	}
 }

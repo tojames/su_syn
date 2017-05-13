@@ -39,6 +39,9 @@ public interface PYouHuiQuanDao {
      */
     public void deleteByIdsTbjd(List<YouHuiQuan> id);
     
+    /***清除无用的优惠券信息**/
+    public void delete4EndTime();
+    
     
 
 }

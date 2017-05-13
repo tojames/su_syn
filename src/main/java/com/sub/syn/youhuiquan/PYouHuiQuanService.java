@@ -198,6 +198,20 @@ public class PYouHuiQuanService {
 			session.close();
 		}
     }
+    
+    /***清除无用的优惠券信息**/
+    public void delete4EndTime(){
+    	SqlSession session=sqlSessionFactory.openSession();
+		try{
+			PYouHuiQuanDao dao=session.getMapper(PYouHuiQuanDao.class);
+			dao.delete4EndTime();
+			session.commit();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			session.close();
+		}
+    }
 	
 	public static void main(String[] args){
 		List<YouHuiQuan> list=new ArrayList<YouHuiQuan>();

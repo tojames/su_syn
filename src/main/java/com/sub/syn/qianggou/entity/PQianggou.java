@@ -5,13 +5,14 @@ public class PQianggou {
 
     private String title;
 
-    private String totalAmount;
+    /***总库存**/
+    private int totalAmount;
 
     private String clickUrl;
 
     private String categoryName;
 
-    private String zkFinalPrice;
+    private double zkFinalPrice;
 
     private String endTime;
 
@@ -26,6 +27,8 @@ public class PQianggou {
     private Long numIid;
     
     private int type;
+    /**0可用 1不可用***/
+    private int status;
 
     public Long getId() {
         return id;
@@ -43,12 +46,12 @@ public class PQianggou {
         this.title = title == null ? null : title.trim();
     }
 
-    public String getTotalAmount() {
+    public int getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(String totalAmount) {
-        this.totalAmount = totalAmount == null ? null : totalAmount.trim();
+    public void setTotalAmount(int totalAmount) {
+        this.totalAmount = totalAmount ;
     }
 
     public String getClickUrl() {
@@ -67,12 +70,12 @@ public class PQianggou {
         this.categoryName = categoryName == null ? null : categoryName.trim();
     }
 
-    public String getZkFinalPrice() {
+    public double getZkFinalPrice() {
         return zkFinalPrice;
     }
 
-    public void setZkFinalPrice(String zkFinalPrice) {
-        this.zkFinalPrice = zkFinalPrice == null ? null : zkFinalPrice.trim();
+    public void setZkFinalPrice(double zkFinalPrice) {
+        this.zkFinalPrice = zkFinalPrice ;
     }
 
     public String getEndTime() {
@@ -129,5 +132,13 @@ public class PQianggou {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }

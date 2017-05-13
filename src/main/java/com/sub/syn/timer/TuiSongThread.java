@@ -41,20 +41,12 @@ public class TuiSongThread extends Thread{
 				}
 			}
 			try {
-				TimeUnit.SECONDS.sleep(60);
+				TimeUnit.SECONDS.sleep(120);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	public static String url="http://gw.api.taobao.com/router/rest";
-	
-	public static String appkey="23765499";
-	
-	public static String secret="778dcf14c08940a20e473828f2d06be7";
-	
-	public static Long adzoneId=80460157L;
 
 	public static void main(String[] args) throws ApiException {
 		TuiSongThread tt=new TuiSongThread();

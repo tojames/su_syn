@@ -2,6 +2,7 @@ package com.sub.syn.youhuiquan;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -54,6 +55,7 @@ public class YouHuiquanJob extends ParentYhyJob{
 			bean.setSalesNum(obj.getIntValue("Sales_num"));
 			bean.setSellerID(obj.getString("SellerID"));
 			bean.setTitle(obj.getString("Title"));
+			bean.setCreateTime(new Date());
 			try {
 				bean.setQuanTime(DateUtils.parseDate(obj.getString("Quan_time"), "yyyy-mm-dd HH:MM:SS"));
 			} catch (ParseException e) {
@@ -75,7 +77,7 @@ public class YouHuiquanJob extends ParentYhyJob{
 				service.saveBath(list);
 				++page;
 				System.out.println(list.size() + " 页数：" + page);
-				log.info("记录条数："+list.size() + " 页数：" + page);
+				log.info("大淘客优惠券 记录条数："+list.size() + " 页数：" + page);
 				json = httpGetRequest(url.replace("[page]", page + ""));
 				try{
 					list = jsonToBean(json);
@@ -92,6 +94,13 @@ public class YouHuiquanJob extends ParentYhyJob{
 			e.printStackTrace();
 			synJob();
 		}
+	}
+	
+	/**
+	 * 删除无用的优惠券信息
+	 */
+	public void deleteYouHuiQuan(){
+		service.delete4EndTime();
 	}
 
 	public static void main(String[] args) {
