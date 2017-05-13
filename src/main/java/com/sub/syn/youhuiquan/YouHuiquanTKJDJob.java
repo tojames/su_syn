@@ -28,7 +28,10 @@ public class YouHuiquanTKJDJob extends ParentYhyJob{
 	
 	
 	private String url = "http://api.tkjidi.com/getGoodsLink?appkey=b5eb0c143fde9427cb7cfa21d89afa06&type=www_lingquan&page=[page]";
+	
 	private int page = 1;
+	
+	private DecimalFormat df = new DecimalFormat("######0.00"); 
 	
 	private PYouHuiQuanService service=new PYouHuiQuanService();
 	
@@ -41,7 +44,6 @@ public class YouHuiquanTKJDJob extends ParentYhyJob{
 				service.deleteByIdsTbjd(list);
 				service.saveBath(list);
 				++page;
-				System.out.println(list.size() + " 页数：" + page);
 				log.info("淘客基地 记录条数："+list.size() + " 页数：" + page);
 				json = httpGetRequest(url.replace("[page]", page + ""));
 				try{
@@ -70,7 +72,7 @@ public class YouHuiquanTKJDJob extends ParentYhyJob{
 		String temp="";
 		DateFormat datedf = new SimpleDateFormat("yyyyMMddhhmmss");
 		String dateStr=datedf.format(new Date());
-		DecimalFormat df = new DecimalFormat("######0.00");   
+		
 		List<YouHuiQuan> list = new ArrayList<YouHuiQuan>();
 		com.alibaba.fastjson.JSONObject object = JSON.parseObject(json);
 		if("".equals(object.getString("data"))){
@@ -92,13 +94,13 @@ public class YouHuiquanTKJDJob extends ParentYhyJob{
 			bean.setGoodsId(obj.getLongValue("goods_id"));//淘宝商品ID
 			bean.setIntroduce(obj.getString("quan_guid_content"));//商品文案
 			bean.setIsTmall(obj.getIntValue("IsTmall"));
-			bean.setOrgPrice(Double.parseDouble(df.format(obj.getDouble("price")))); /*正常售价*/
+			bean.setOrgPrice(Double.parseDouble(df.format(obj.getDoubleValue("price")))); /*正常售价*/
 			bean.setPic(obj.getString("pic"));            //商品图片
-			bean.setPrice(Double.parseDouble(df.format(obj.getDouble("price_after_coupons"))) );   /*券后价*/
+			bean.setPrice(Double.parseDouble(df.format(obj.getDoubleValue("price_after_coupons"))) );   /*券后价*/
 			bean.setqQuanMLink(obj.getString("Quan_m_link"));
 			bean.setQuanCondition(obj.getString("quan_note"));//使用条件
 			bean.setQuanLink(obj.getString("quan_link"));  /*领券链接*/
-			bean.setQuanPrice(Double.parseDouble(df.format(obj.getDouble("price_coupons"))) );//优惠券金额
+			bean.setQuanPrice(Double.parseDouble(df.format(obj.getDoubleValue("price_coupons"))) );//优惠券金额
 			bean.setSalesNum(obj.getIntValue("sales"));  /*商品销量*/
 			bean.setSellerID(obj.getString("SellerID"));
 			bean.setTitle(obj.getString("goods_name"));
@@ -109,9 +111,9 @@ public class YouHuiquanTKJDJob extends ParentYhyJob{
 				if(!"".equals(temp)){
 					temp=temp.replaceAll("-","").replaceAll(":","").replaceAll(" ","");
 				}
-				if(Long.parseLong(temp)<=Long.parseLong(dateStr)){
-					continue;
-				}
+//				if(Long.parseLong(temp)<=Long.parseLong(dateStr)){
+//					continue;
+//				}
 				//System.out.println("temp:"+temp);
 				bean.setQuanTime(DateUtils.parseDate(obj.getString("quan_expired_time"), "yyyy-mm-dd HH:MM:SS"));
 			} catch (ParseException e) {

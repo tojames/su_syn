@@ -1,6 +1,9 @@
 package com.sub.syn.youhuiquan;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +29,8 @@ public class YouHuiquanJob extends ParentYhyJob{
 	private int page = 1;
 	
 	private PYouHuiQuanService service=new PYouHuiQuanService();
+	
+	private DecimalFormat df = new DecimalFormat("######0.00");
 
 	private List<YouHuiQuan> jsonToBean(String json) {
 		List<YouHuiQuan> list = new ArrayList<YouHuiQuan>();
@@ -47,7 +52,7 @@ public class YouHuiquanJob extends ParentYhyJob{
 			bean.setIsTmall(obj.getIntValue("IsTmall"));
 			bean.setOrgPrice(obj.getDoubleValue("Org_Price"));
 			bean.setPic(obj.getString("Pic"));
-			bean.setPrice(obj.getDoubleValue("Price"));
+			bean.setPrice(Double.parseDouble(df.format(obj.getDoubleValue("Price"))));
 			bean.setqQuanMLink(obj.getString("Quan_m_link"));
 			bean.setQuanCondition(obj.getString("Quan_condition"));
 			bean.setQuanLink(obj.getString("Quan_link"));
@@ -76,7 +81,7 @@ public class YouHuiquanJob extends ParentYhyJob{
 				service.deleteByIds(list);
 				service.saveBath(list);
 				++page;
-				System.out.println(list.size() + " 页数：" + page);
+				//System.out.println(list.size() + " 页数：" + page);
 				log.info("大淘客优惠券 记录条数："+list.size() + " 页数：" + page);
 				json = httpGetRequest(url.replace("[page]", page + ""));
 				try{
@@ -109,5 +114,9 @@ public class YouHuiquanJob extends ParentYhyJob{
 		b.synJob();
 		long end=System.currentTimeMillis();
 		System.out.println("耗时："+(end-start)/1000+"秒");
+		
+		
+		DecimalFormat df = new DecimalFormat("######0.00");
+		System.out.println(df.format(44d));
 	}
 }

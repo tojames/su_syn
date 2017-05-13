@@ -1,5 +1,6 @@
 package com.sub.syn.timer;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -106,6 +107,7 @@ public class SynQiangGouThread extends Thread {
 	 * @return
 	 */
 	private List<PQianggou> jsonToBean(String json) {
+		DecimalFormat df = new DecimalFormat("######0.00");
 		List<PQianggou> list = new ArrayList<PQianggou>();
 		com.alibaba.fastjson.JSONObject object = JSON.parseObject(json);
 		JSONObject data = object.getJSONObject("tbk_ju_tqg_get_response").getJSONObject("results");
@@ -126,11 +128,11 @@ public class SynQiangGouThread extends Thread {
 			bean.setStartTime(obj.getString("start_time"));
 			bean.setTitle(obj.getString("title"));
 			bean.setTotalAmount(obj.getInteger("total_amount"));
-			bean.setZkFinalPrice(obj.getDoubleValue("zk_final_price"));
+			bean.setZkFinalPrice(Double.parseDouble(df.format(obj.getDoubleValue("zk_final_price"))));
 			//商品价格小于1000，销售总数量小于50时，不抽取数据
-			if(bean.getTotalAmount()<=50&&bean.getZkFinalPrice()<=50){
-				continue;
-			}
+//			if(bean.getTotalAmount()<=50&&bean.getZkFinalPrice()<=50){
+//				continue;
+//			}
 			bean.setType(0);
 			// service.save(bean);
 			if(bean.getTotalAmount()<=bean.getSoldNum()+supus){
