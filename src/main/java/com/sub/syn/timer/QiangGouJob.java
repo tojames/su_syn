@@ -21,9 +21,10 @@ public class QiangGouJob  {
 		
 		LinkedList<String> list = DateUtils.getHours(new Date());
 		String time=list.get(0);
+		String endTime=list.get(list.size()-1);
 		PQianggou bean=new PQianggou();
 		bean.setStartTime(time.split("=")[0]);
-		bean.setEndTime(time.split("=")[1]);
+		bean.setEndTime(endTime.split("=")[1]);
 		int count=new PQianggouService().getCount(bean);
 		TimeQueue.type=count;
 		System.out.println("数量："+count);
@@ -45,6 +46,8 @@ public class QiangGouJob  {
 	
 	public static void main(String[] args){
 		QiangGouJob dd=new QiangGouJob();
-		dd.deleteQiangGou();
+		//dd.deleteQiangGou();
+		
+		dd.syn();
 	}
 }

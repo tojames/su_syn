@@ -40,7 +40,7 @@ public class SynQiangGouThread extends Thread {
 	public void run() {
 		long a=System.currentTimeMillis();
 		String time = TimeQueue.queue.poll();
-		log.info(this.getName() + "||" + time);
+		log.info("淘抢购商品时间："+this.getName() + "||" + time);
 		while (null != time) {
 			String start = time.split("=")[0];
 			String end = time.split("=")[1];
@@ -49,7 +49,7 @@ public class SynQiangGouThread extends Thread {
 			long pageNo = 1L;
 			String jsonstr = getQg(client, req, pageNo, start, end);
 			String total_results = jsonstr.substring(jsonstr.indexOf("total_results") + 15,jsonstr.indexOf("request_id") - 2);
-			// System.out.println("total_results : "+total_results);
+			//log.info("淘抢购 total_results : "+total_results);
 			while (total_results.equals("40")&&Integer.parseInt(total_results) > 0) {
 				List<PQianggou> list = jsonToBean(jsonstr);
 				if(TimeQueue.type==0){
@@ -58,9 +58,9 @@ public class SynQiangGouThread extends Thread {
 					service.updateBath(list);
 				}
 				jsonstr = getQg(client, req, ++pageNo, start, end);
-				System.out.println("响应："+jsonstr);
+				//System.out.println("响应："+jsonstr);
 				total_results = jsonstr.substring(jsonstr.indexOf("total_results") + 15,jsonstr.indexOf("request_id") - 2);
-				log.info(this.getName() + "   total_results : " + total_results);
+				log.info(this.getName() + " 淘抢购商品  total_results : " + total_results);
 				if (total_results.length() > 2) {
 					break;
 				}
