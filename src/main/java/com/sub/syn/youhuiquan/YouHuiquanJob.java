@@ -60,6 +60,7 @@ public class YouHuiquanJob extends ParentYhyJob{
 			bean.setSalesNum(obj.getIntValue("Sales_num"));
 			bean.setSellerID(obj.getString("SellerID"));
 			bean.setTitle(obj.getString("Title"));
+			bean.setQuanId(obj.getString("Quan_id"));
 			bean.setCreateTime(new Date());
 			try {
 				bean.setQuanTime(DateUtils.parseDate(obj.getString("Quan_time"), "yyyy-mm-dd HH:MM:SS"));

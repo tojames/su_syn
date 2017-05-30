@@ -214,12 +214,14 @@ public class PYouHuiQuanService {
     }
 	
 	public static void main(String[] args){
-		List<YouHuiQuan> list=new ArrayList<YouHuiQuan>();
-		YouHuiQuan bean=new YouHuiQuan();
-		bean.setId(9);
-		bean.setTitle("2222");
-		list.add(bean);
-		//new PYouHuiQuanService().insert(bean);
-		new PYouHuiQuanService().saveBath(list);
+//		List<YouHuiQuan> list=new ArrayList<YouHuiQuan>();
+//		YouHuiQuan bean=new YouHuiQuan();
+//		bean.setId(9);
+//		bean.setTitle("2222");
+//		list.add(bean);
+//		//new PYouHuiQuanService().insert(bean);
+//		new PYouHuiQuanService().saveBath(list);
+		
+		new PYouHuiQuanService().delete4EndTime();
 	}
 }

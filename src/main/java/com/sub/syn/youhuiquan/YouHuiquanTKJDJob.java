@@ -105,6 +105,7 @@ public class YouHuiquanTKJDJob extends ParentYhyJob{
 			bean.setSellerID(obj.getString("SellerID"));
 			bean.setTitle(obj.getString("goods_name"));
 			bean.setCreateTime(new Date());
+			bean.setQuanId(obj.getString("quan_id"));
 			bean.setType(2);//淘客基地
 			try {
 				temp=obj.getString("quan_expired_time");

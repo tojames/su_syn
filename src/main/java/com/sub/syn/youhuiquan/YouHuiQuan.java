@@ -49,7 +49,8 @@ public class YouHuiQuan {
 	/***结束时间**/
 	private Date quanTime;
 	private Date createTime;
-	
+	/***优惠券ID***/
+	private String quanId;
 	/**分类名称**/
 	private String cateName;
 	/**备注**/
@@ -254,6 +255,14 @@ public class YouHuiQuan {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getQuanId() {
+		return quanId;
+	}
+
+	public void setQuanId(String quanId) {
+		this.quanId = quanId;
 	}
 	
 	
